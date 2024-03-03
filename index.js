@@ -5,7 +5,7 @@ const PORT = 3000
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const mqtt = require("mqtt");
-const client = mqtt.connect("mqtt://10.50.8.112");
+const client = mqtt.connect("mqtt://localhost");
 
 app.set('views', './views');
 app.set('view engine', 'ejs');
