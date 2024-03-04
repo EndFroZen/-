@@ -53,113 +53,113 @@ int b = 2;
 // }
 void text(){
     if(strcmp(mosrecode, ".-")==0){
-        printf("A");char sym ='A';numforspace++;
-        stringtext[numberinstring] = sym;
+        printf("A");
+        stringtext[numberinstring] = 'A';numberinstring++;
     }else if(strcmp(mosrecode, "-...")==0){
-        printf("B");char sym ='B';numforspace++;
-        stringtext[numberinstring] = sym;
+        printf("B");
+        stringtext[numberinstring] =  'B';numberinstring++;
     }else if(strcmp(mosrecode, "-.-.")==0){
-        printf("C");char sym ='C';numforspace++;
-        stringtext[numberinstring] = sym;
+        printf("C");
+        stringtext[numberinstring] ='C';numberinstring++;
     }else if(strcmp(mosrecode, "-...")==0){
-        printf("D");char sym ='D';numforspace++;
-        stringtext[numberinstring] = sym;
+        printf("D");
+        stringtext[numberinstring] ='D';numberinstring++;
     }else if(strcmp(mosrecode, ".")==0){
-        printf("E");char sym ='E';numforspace++;
-        stringtext[numberinstring] = sym;
+        printf("E");
+        stringtext[numberinstring] ='E';numberinstring++;
     }else if(strcmp(mosrecode, "..-.")==0){
-        printf("F");char sym ='F';numforspace++;
-        stringtext[numberinstring] = sym;
+        printf("F");
+        stringtext[numberinstring] ='F';numberinstring++;
     }else if(strcmp(mosrecode, "--.")==0){
-        printf("G");char sym ='G';numforspace++;
-        stringtext[numberinstring] = sym;
+        printf("G");
+        stringtext[numberinstring] = 'G';numberinstring++;
     }else if(strcmp(mosrecode, "....")==0){
-        printf("H");char sym ='H';numforspace++;
-        stringtext[numberinstring] = sym;
+        printf("H");
+        stringtext[numberinstring] = 'H';numberinstring++;
     }else if(strcmp(mosrecode, "..")==0){
-        printf("I");char sym ='I';numforspace++;
-        stringtext[numberinstring] = sym;
+        printf("I");
+        stringtext[numberinstring] = 'I';numberinstring++;
     }else if(strcmp(mosrecode, ".---")==0){
-        printf("J");char sym ='J';numforspace++;
-        stringtext[numberinstring] = sym;
+        printf("J");
+        stringtext[numberinstring] = 'J';numberinstring++;
     }else if(strcmp(mosrecode, "-.-")==0){
-        printf("K");char sym ='K';numforspace++;
-        stringtext[numberinstring] = sym;
+        printf("K");
+        stringtext[numberinstring] = 'K';numberinstring++;
     }else if(strcmp(mosrecode, ".-..")==0){
-        printf("L");char sym ='L';numforspace++;
-        stringtext[numberinstring] = sym;
+        printf("L");
+        stringtext[numberinstring] = 'L';numberinstring++;
     }else if(strcmp(mosrecode, "--")==0){
-        printf("M");char sym ='M';numforspace++;
-        stringtext[numberinstring] = sym;
+        printf("M");
+        stringtext[numberinstring] = 'M';numberinstring++;
     }else if(strcmp(mosrecode, "-.")==0){
-        printf("N");char sym ='N';numforspace++;
-        stringtext[numberinstring] = sym;
+        printf("N");
+        stringtext[numberinstring] = 'N';numberinstring++;
     }else if(strcmp(mosrecode, "---")==0){
-        printf("O");char sym ='O';numforspace++;
-        stringtext[numberinstring] = sym;
+        printf("O");
+        stringtext[numberinstring] = 'O';numberinstring++;
     }else if(strcmp(mosrecode, ".--.")==0){
-        printf("P");char sym ='P';numforspace++;
-        stringtext[numberinstring] = sym;
+        printf("P");
+        stringtext[numberinstring] ='P';numberinstring++;
     }else if(strcmp(mosrecode, "--.-")==0){
-        printf("Q");char sym ='Q';numforspace++;
-        stringtext[numberinstring] = sym;
+        printf("Q");
+        stringtext[numberinstring] ='Q';numberinstring++;
     }else if(strcmp(mosrecode, ".-.")==0){
-        printf("R");char sym ='R';numforspace++;
-        stringtext[numberinstring] = sym;
+        printf("R");
+        stringtext[numberinstring] = 'R';numberinstring++;
     }else if(strcmp(mosrecode, "...")==0){
-        printf("S");char sym ='S';numforspace++;
-        stringtext[numberinstring] = sym;
+        printf("S");
+        stringtext[numberinstring] = 'S';numberinstring++;
     }else if(strcmp(mosrecode, "-")==0){
-        printf("T");char sym ='T';numforspace++;
-        stringtext[numberinstring] = sym;
+        printf("T");
+        stringtext[numberinstring] = 'T';numberinstring++;
     }else if(strcmp(mosrecode, "..-")==0){
-        printf("U");char sym ='U';numforspace++;
-        stringtext[numberinstring] = sym;
+        printf("U");
+        stringtext[numberinstring] = 'U';numberinstring++;
     }else if(strcmp(mosrecode, "...-")==0){
-        printf("V");char sym ='V';numforspace++;
-        stringtext[numberinstring] = sym;
+        printf("V");
+        stringtext[numberinstring] = 'V';numberinstring++;
     }else if(strcmp(mosrecode, ".--")==0){
-        printf("W");char sym ='W';numforspace++;
-        stringtext[numberinstring] = sym;;
+        printf("W");
+        stringtext[numberinstring] = 'W';numberinstring++;
     }else if(strcmp(mosrecode, "-..-")==0){
-        printf("X");char sym ='X';numforspace++;
-        stringtext[numberinstring] = sym;
+        printf("X");
+        stringtext[numberinstring] = 'X';numberinstring++;
     }else if(strcmp(mosrecode, "-.--")==0){
-        printf("Y");char sym ='Y';numforspace++;
-        stringtext[numberinstring] = sym;
+        printf("Y");
+        stringtext[numberinstring] = 'Y';numberinstring++;
     }else if(strcmp(mosrecode, "--..")==0){
-        printf("Z");char sym ='Z';numforspace++;
-        stringtext[numberinstring] = sym;
+        printf("Z");
+        stringtext[numberinstring] = 'Z';numberinstring++;
     }else if(strcmp(mosrecode, ".----")==0){
-        printf("1");char sym ='1';numforspace++;
-        stringtext[numberinstring] = sym;
+        printf("1");
+        stringtext[numberinstring] = '1';numberinstring++;
     }else if(strcmp(mosrecode, "..---")==0){
-        printf("2");char sym ='2';numforspace++;
-        stringtext[numberinstring] = sym;;
+        printf("2");
+        stringtext[numberinstring] = '2';numberinstring++;;
     }else if(strcmp(mosrecode, "...--")==0){
-        printf("3");char sym ='3';numforspace++;
-        stringtext[numberinstring] = sym;
+        printf("3");
+        stringtext[numberinstring] = '3';numberinstring++;
     }else if(strcmp(mosrecode, "....-")==0){
-        printf("4");char sym ='4';numforspace++;
-        stringtext[numberinstring] = sym;
+        printf("4");
+        stringtext[numberinstring] = '4';numberinstring++;
     }else if(strcmp(mosrecode, ".....")==0){
-        printf("5 ");char sym ='5';numforspace++;
-        stringtext[numberinstring] = sym;
+        printf("5 ");
+        stringtext[numberinstring] = '5';numberinstring++;
     }else if(strcmp(mosrecode, "-....")==0){
-        printf("6");char sym ='6';numforspace++;
-        stringtext[numberinstring] = sym;
+        printf("6");
+        stringtext[numberinstring] = '6';numberinstring++;
     }else if(strcmp(mosrecode, "--...")==0){
-        printf("7");char sym ='7';numforspace++;
-        stringtext[numberinstring] = sym;
+        printf("7");
+        stringtext[numberinstring] = '7';numberinstring++;
     }else if(strcmp(mosrecode, "---..")==0){
-        printf("8");char sym ='8';numforspace++;
-        stringtext[numberinstring] = sym;
+        printf("8");
+        stringtext[numberinstring] = '8';numberinstring++;
     }else if(strcmp(mosrecode, "----.")==0){
-        printf("9"); char sym ='9';numforspace++;
-        stringtext[numberinstring] = sym;
+        printf("9");
+        stringtext[numberinstring] = '9';numberinstring++;
     }else if(strcmp(mosrecode, "-----")==0){
-        printf("0"); char sym ='0';numforspace++;
-        stringtext[numberinstring] = sym;
+        printf("0");
+        stringtext[numberinstring] = '0';numberinstring++;
     }else{
         printf(" ");
     }
@@ -218,16 +218,15 @@ for(;;){
             text();
             numofselect=0;
             scal=0;
-            numberinstring++;
             printf("%s\n",stringtext);
         }else if(numforspace==2){;
-            // char sym = ' ';
-            // stringtext[numberinstring +1] = sym;
+            printf("MQTT SEND SAPCE " " ")
+            stringtext[numberinstring] = ' ';
+            numberinstring++;
             numforspace=0;
         }
       }
     }
 }
 }
-
 
