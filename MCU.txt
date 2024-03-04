@@ -1,43 +1,98 @@
 #include <stdio.h>
-#include <freertos/FreeRTOS.h>
-#include <freertos/task.h>
-#include <driver/gpio.h>
+#include "driver/gpio.h"
+#include <inttypes.h>
 #include <esp_timer.h>
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "freertos/queue.h"
 #include <string.h>
-#define BUTTON_PIN 35
-static bool button_pressed = false;
-static uint32_t button_press_start_time = 0;
+#define GPIO_OUTPUT_IO_0 18
+#define GPIO_OUTPUT_IO_1 19
+#define GPIO_OUTPUT_PIN_SEL ((1ULL<<GPIO_OUTPUT_IO_0) | (1ULL<<GPIO_OUTPUT_IO_1))
+
+#define GPIO_INPUT_IO_0 16
+#define GPIO_INPUT_IO_1 17
+#define GPIO_INPUT_IO_2 5
+#define GPIO_INPUT_PIN_POLL_SEL ((1Ull<<GPIO_INPUT_IO_0) | (1ULL<<GPIO_INPUT_IO_1))
+#define GPIO_INPUT_PIN_INTR_SEL (1ULL<<GPIO_INPUT_IO_2)
 int numofselect = 0;
 int numforspace=0;
 char mosrecode[20];
 int scal=0;
-void blink_task(void *pvParameters) {
-  while (1) {
-        if (gpio_get_level(BUTTON_PIN) == 0 && !button_pressed) {
-            button_pressed = true;
-            button_press_start_time = esp_timer_get_time();
-        } else if (gpio_get_level(BUTTON_PIN) == 1 && button_pressed) {
-            uint32_t press_duration = esp_timer_get_time() - button_press_start_time;
-            if (press_duration >= 450000) { // 0.45 seconds in microseconds
-                mosrecode[scal]='-';
-                numofselect = 0;
-                scal++;
-                vTaskDelay(250 / portTICK_PERIOD_MS);
-                
-            } else {
-                mosrecode[scal]='.';
-                numofselect = 0;
-                scal++;
-                vTaskDelay(250 / portTICK_PERIOD_MS);
-                
-            }
-            button_pressed = false;
+int boolean=0;
+#define ESP_INTR_FLAG_DEFAULT 0
+static QueueHandle_t gpio_evt_queue = NULL;
+
+static void IRAM_ATTR gpio_isr_handler(void* arg)
+{
+    uint32_t gpio_num = (uint32_t)arg;
+    xQueueSendFromISR(gpio_evt_queue, &gpio_num,NULL);
+}
+int b = 2;
+
+static void gpio_task_example(void* arg)
+{
+    uint32_t io_num;
+    for(;;){
+        if(xQueueReceive(gpio_evt_queue, &io_num, portMAX_DELAY)) {
+            printf("GPIO[%"PRIu32"] intr, val: %d\n",io_num,gpio_get_level(io_num));
+            
         }
-        if(gpio_get_level(BUTTON_PIN) == 0&&numofselect<10){
-            numofselect++;
-            vTaskDelay(100 / portTICK_PERIOD_MS);
-        }else if(numofselect==10){
-             if(strcmp(mosrecode, ".-")==0){
+        if(gpio_get_level(io_num) == 0){
+            b++;
+             int c = b % 2;
+            gpio_set_level(GPIO_OUTPUT_IO_1, c);
+        }
+
+    }
+}
+
+void app_main(void)
+{
+
+gpio_config_t io_conf = {};
+
+//INPUT
+
+io_conf.intr_type = GPIO_INTR_DISABLE;
+io_conf.mode = GPIO_MODE_INPUT;
+io_conf.pin_bit_mask = GPIO_INPUT_PIN_POLL_SEL;
+io_conf.pull_down_en = 0;
+io_conf.pull_up_en = 1;
+gpio_config(&io_conf);
+
+
+gpio_install_isr_service(ESP_INTR_FLAG_DEFAULT);
+gpio_isr_handler_add(GPIO_INPUT_IO_2, gpio_isr_handler, (void*)GPIO_INPUT_IO_2);
+gpio_evt_queue = xQueueCreate(10, sizeof(uint32_t));
+xTaskCreate(gpio_task_example, "gpio_task_example",2048, NULL, 10,NULL);
+
+for(;;){
+    
+    vTaskDelay(100 / portTICK_PERIOD_MS);
+    // printf("GPIO[%d] poll, val: %d\n",GPIO_INPUT_IO_0,gpio_get_level(GPIO_INPUT_IO_0));
+    if(gpio_get_level(GPIO_INPUT_IO_0)==0){
+      boolean++;
+      printf("%d\n",boolean);
+      vTaskDelay(100 / portTICK_PERIOD_MS);
+      if(gpio_get_level(GPIO_INPUT_IO_0)==1){
+      numofselect++;
+      vTaskDelay(100 / portTICK_PERIOD_MS);
+      if(boolean>=1&&boolean<=3){
+        char dot = '.';
+        mosrecode[scal]=dot;
+        boolean=0;
+        scal++;
+        printf("%s\n",mosrecode);
+      }else if(boolean>3){
+        char dach = '-';
+        mosrecode[scal]=dach;
+        boolean=0;
+        scal++;
+        printf("%s\n",mosrecode);
+      }
+    else if (numofselect==10){
+    if(strcmp(mosrecode, ".-")==0){
         printf("A");
     }else if(strcmp(mosrecode, "-...")==0){
         printf("B");
@@ -110,6 +165,7 @@ void blink_task(void *pvParameters) {
     }else if(strcmp(mosrecode, "-----")==0){
         printf("0");
     }
+            }
             for(int i = 0;i<20;i++){
                 mosrecode[i] = '\0';
             }
@@ -123,22 +179,9 @@ void blink_task(void *pvParameters) {
         }else{
             continue;
         }
+        } 
         
-        vTaskDelay(10 / portTICK_PERIOD_MS); // Check button state every 10ms
+      }
+      
     }
-}
 
-void app_main(void) {
-  // Configure button pin as input
-  gpio_config_t io_conf;
-  io_conf.intr_type = GPIO_INTR_DISABLE;   // Disable interrupt for simplicity
-  io_conf.mode = GPIO_MODE_INPUT;
-  io_conf.pin_bit_mask = (1ULL << BUTTON_PIN); // Updated member
-  io_conf.pull_up_en = GPIO_PULLUP_DISABLE;  // Assuming external pull-up resistor
-  io_conf.pull_down_en = GPIO_PULLDOWN_DISABLE;
-  gpio_config(&io_conf);
-
-
-
-  xTaskCreate(blink_task, "blink_task", 2048, NULL, 5, NULL);
-}
