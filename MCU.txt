@@ -74,10 +74,11 @@ for(;;){
     if(gpio_get_level(GPIO_INPUT_IO_0)==0){
       boolean++;
       printf("%d\n",boolean);
-      vTaskDelay(100 / portTICK_PERIOD_MS);
-      if(gpio_get_level(GPIO_INPUT_IO_0)==1){
+      vTaskDelay(50 / portTICK_PERIOD_MS);
+      }
+      else if(gpio_get_level(GPIO_INPUT_IO_0)==1){
       numofselect++;
-      vTaskDelay(100 / portTICK_PERIOD_MS);
+      
       if(boolean>=1&&boolean<=3){
         char dot = '.';
         mosrecode[scal]=dot;
@@ -90,9 +91,8 @@ for(;;){
         boolean=0;
         scal++;
         printf("%s\n",mosrecode);
-      }
-    else if (numofselect==10){
-    if(strcmp(mosrecode, ".-")==0){
+      }else if(numofselect==10){
+        if(strcmp(mosrecode, ".-")==0){
         printf("A");
     }else if(strcmp(mosrecode, "-...")==0){
         printf("B");
@@ -165,23 +165,9 @@ for(;;){
     }else if(strcmp(mosrecode, "-----")==0){
         printf("0");
     }
-            }
-            for(int i = 0;i<20;i++){
-                mosrecode[i] = '\0';
-            }
-            numforspace++;
-            scal=0;
-            numofselect = 0;
-        }else if(numforspace== 2){
-            printf(" ");
-            numforspace = 0;
-            numofselect = 0;
-        }else{
-            continue;
-        }
-        } 
-        
-      }
-      
-    }
-
+  }   
+      printf("%d",numofselect);
+      vTaskDelay(100 / portTICK_PERIOD_MS);
+}
+}
+}
