@@ -48,7 +48,19 @@ static void log_error_if_nonzero(const char *message, int error_code)
     ESP_LOGE(TAG, "Last error %s: 0x%x", message, error_code);
   }
 }
-
+void reset(){
+  numforspace=0;
+  boolean=0;
+  scal=0;
+  numofselect=0;
+  numberinstring=0;
+  for(int j =0;j<20;j++){
+        stringtext[j]='\0';
+    }
+  for(int i =0;i<20;i++){
+        mosrecode[i]='\0';
+    }
+};
 static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_t event_id, void *event_data)
 {
   ESP_LOGD(TAG, "Event dispatched from event loop base=%s, event_id=%" PRIi32 "", base, event_id);
@@ -60,9 +72,8 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
     case MQTT_EVENT_CONNECTED:
       ESP_LOGI(TAG, "MQTT_EVENT_CONNECTED");
       esp_mqtt_client_publish(client, "/mc/2", "data for qos1", 0, 1, 0);
-      esp_mqtt_client_subscribe(client, "/topic/qos0", 0);
-      esp_mqtt_client_subscribe(client, "/topic/qos1", 1);
-      esp_mqtt_client_unsubscribe(client, "/topic/qos1");
+      esp_mqtt_client_subscribe(client, "/mc/1", 0);
+
       break;
 
     case MQTT_EVENT_DISCONNECTED:
@@ -71,7 +82,7 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
 
     case MQTT_EVENT_SUBSCRIBED:
       ESP_LOGI(TAG, "MQTT_EVENT_SUBSCRIBED, msg_id=%d", event->msg_id);
-      esp_mqtt_client_publish(client, "/topic/qos0", "data for qos0", 0, 0, 0);
+
       break;
 
     case MQTT_EVENT_UNSUBSCRIBED:
@@ -86,6 +97,9 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
       ESP_LOGI(TAG, "MQTT_EVENT_DATA");
       printf("TOPIC=%.*s\r\n", event->topic_len, event->topic);
       printf("DATA=%.*s\r\n", event->data_len, event->data);
+      if(strncmp( event->data,"RESET",event->data_len)==0){
+        reset();
+      }
       break;
 
     case MQTT_EVENT_ERROR:
@@ -310,4 +324,3 @@ void mqtt_app_start(void)
   gpio_evt_queue = xQueueCreate(10, sizeof(uint32_t));
   xTaskCreate(gpio_task_example, "gpio_task_example", 2048, NULL, 10, NULL);
 }
-
