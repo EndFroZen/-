@@ -19,6 +19,7 @@
 #define GPIO_INPUT_IO_2 5
 #define GPIO_INPUT_PIN_POLL_SEL ((1Ull<<GPIO_INPUT_IO_0) | (1ULL<<GPIO_INPUT_IO_1))
 #define GPIO_INPUT_PIN_INTR_SEL (1ULL<<GPIO_INPUT_IO_2)
+ esp_mqtt_client_handle_t client;
 int numberinstring =0;
 char stringtext[30];
 int numofselect = 0;
@@ -55,7 +56,7 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
   {
     case MQTT_EVENT_CONNECTED:
       ESP_LOGI(TAG, "MQTT_EVENT_CONNECTED");
-      esp_mqtt_client_publish(client, "/topic/qos1", "data for qos1", 0, 1, 0);
+      esp_mqtt_client_publish(client, "/mc/2", "data for qos1", 0, 1, 0);
       esp_mqtt_client_subscribe(client, "/topic/qos0", 0);
       esp_mqtt_client_subscribe(client, "/topic/qos1", 1);
       esp_mqtt_client_unsubscribe(client, "/topic/qos1");
@@ -103,112 +104,112 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
 }
 void text(){
     if(strcmp(mosrecode, ".-")==0){
-        printf("A");
+        esp_mqtt_client_publish(client, "/mc/4", ".- A", 0, 1, 0);
         stringtext[numberinstring] = 'A';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "-...")==0){
-        printf("B");
+        esp_mqtt_client_publish(client, "/mc/4", "-... B", 0, 1, 0);
         stringtext[numberinstring] =  'B';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "-.-.")==0){
-        printf("C");
+        esp_mqtt_client_publish(client, "/mc/4", "-.-. C", 0, 1, 0);
         stringtext[numberinstring] ='C';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "-...")==0){
-        printf("D");
+        esp_mqtt_client_publish(client, "/mc/4", "-... D", 0, 1, 0);
         stringtext[numberinstring] ='D';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, ".")==0){
-        printf("E");
+        esp_mqtt_client_publish(client, "/mc/4", ". E", 0, 1, 0);
         stringtext[numberinstring] ='E';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "..-.")==0){
-        printf("F");
+        esp_mqtt_client_publish(client, "/mc/4", "..-. F", 0, 1, 0);
         stringtext[numberinstring] ='F';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "--.")==0){
-        printf("G");
+        esp_mqtt_client_publish(client, "/mc/4", "--. G", 0, 1, 0);
         stringtext[numberinstring] = 'G';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "....")==0){
-        printf("H");
+        esp_mqtt_client_publish(client, "/mc/4", ".... H", 0, 1, 0);
         stringtext[numberinstring] = 'H';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "..")==0){
-        printf("I");
+        esp_mqtt_client_publish(client, "/mc/4", ".. I", 0, 1, 0);
         stringtext[numberinstring] = 'I';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, ".---")==0){
-        printf("J");
+        esp_mqtt_client_publish(client, "/mc/4", ".--- J", 0, 1, 0);
         stringtext[numberinstring] = 'J';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "-.-")==0){
-        printf("K");
+        esp_mqtt_client_publish(client, "/mc/4", "-.- K", 0, 1, 0);
         stringtext[numberinstring] = 'K';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, ".-..")==0){
-        printf("L");
+        esp_mqtt_client_publish(client, "/mc/4", ".-.. L", 0, 1, 0);
         stringtext[numberinstring] = 'L';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "--")==0){
-        printf("M");
+        esp_mqtt_client_publish(client, "/mc/4", "-- M", 0, 1, 0);
         stringtext[numberinstring] = 'M';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "-.")==0){
-        printf("N");
+        esp_mqtt_client_publish(client, "/mc/4", "-. N", 0, 1, 0);
         stringtext[numberinstring] = 'N';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "---")==0){
-        printf("O");
+        esp_mqtt_client_publish(client, "/mc/4", "--- O", 0, 1, 0);
         stringtext[numberinstring] = 'O';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, ".--.")==0){
-        printf("P");
+        esp_mqtt_client_publish(client, "/mc/4", ".--. P", 0, 1, 0);
         stringtext[numberinstring] ='P';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "--.-")==0){
-        printf("Q");
+        esp_mqtt_client_publish(client, "/mc/4", "--.- Q", 0, 1, 0);
         stringtext[numberinstring] ='Q';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, ".-.")==0){
-        printf("R");
+        esp_mqtt_client_publish(client, "/mc/4", ".-. R", 0, 1, 0);
         stringtext[numberinstring] = 'R';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "...")==0){
-        printf("S");
+        esp_mqtt_client_publish(client, "/mc/4", "... S", 0, 1, 0);
         stringtext[numberinstring] = 'S';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "-")==0){
-        printf("T");
+        esp_mqtt_client_publish(client, "/mc/4", "- T", 0, 1, 0);
         stringtext[numberinstring] = 'T';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "..-")==0){
-        printf("U");
+        esp_mqtt_client_publish(client, "/mc/4", "..- U", 0, 1, 0);
         stringtext[numberinstring] = 'U';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "...-")==0){
-        printf("V");
+        esp_mqtt_client_publish(client, "/mc/4", "...- V", 0, 1, 0);
         stringtext[numberinstring] = 'V';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, ".--")==0){
-        printf("W");
+        esp_mqtt_client_publish(client, "/mc/4", ".-- W", 0, 1, 0);
         stringtext[numberinstring] = 'W';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "-..-")==0){
-        printf("X");
+        esp_mqtt_client_publish(client, "/mc/4", "-..- X", 0, 1, 0);
         stringtext[numberinstring] = 'X';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "-.--")==0){
-        printf("Y");
+        esp_mqtt_client_publish(client, "/mc/4", "-.-- Y", 0, 1, 0);
         stringtext[numberinstring] = 'Y';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "--..")==0){
-        printf("Z");
+        esp_mqtt_client_publish(client, "/mc/4", "--.. Z", 0, 1, 0);
         stringtext[numberinstring] = 'Z';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, ".----")==0){
-        printf("1");
+        esp_mqtt_client_publish(client, "/mc/4", ".---- 1", 0, 1, 0);
         stringtext[numberinstring] = '1';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "..---")==0){
-        printf("2");
+        esp_mqtt_client_publish(client, "/mc/4", "..--- 2", 0, 1, 0);
         stringtext[numberinstring] = '2';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "...--")==0){
-        printf("3");
+        esp_mqtt_client_publish(client, "/mc/4", "...-- 3", 0, 1, 0);
         stringtext[numberinstring] = '3';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "....-")==0){
-        printf("4");
+        esp_mqtt_client_publish(client, "/mc/4", "....- 4", 0, 1, 0);
         stringtext[numberinstring] = '4';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, ".....")==0){
-        printf("5 ");
+        esp_mqtt_client_publish(client, "/mc/4", "..... 5", 0, 1, 0);
         stringtext[numberinstring] = '5';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "-....")==0){
-        printf("6");
+        esp_mqtt_client_publish(client, "/mc/4", "-.... 6", 0, 1, 0);
         stringtext[numberinstring] = '6';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "--...")==0){
-        printf("7");
+        esp_mqtt_client_publish(client, "/mc/4", "--... 7", 0, 1, 0);
         stringtext[numberinstring] = '7';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "---..")==0){
-        printf("8");
+        esp_mqtt_client_publish(client, "/mc/4", "---.. 8", 0, 1, 0);
         stringtext[numberinstring] = '8';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "----.")==0){
-        printf("9");
+        esp_mqtt_client_publish(client, "/mc/4", "----. 9", 0, 1, 0);
         stringtext[numberinstring] = '9';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "-----")==0){
-        printf("0");
+        esp_mqtt_client_publish(client, "/mc/4", "----- 0", 0, 1, 0);
         stringtext[numberinstring] = '0';numberinstring++;numforspace=0;
     }else{
         printf(" ");
@@ -243,6 +244,7 @@ static void gpio_task_example(void* arg)
         boolean=0;
         numofselect=0;
         scal++;
+        esp_mqtt_client_publish(client, "/mc/4", mosrecode, 0, 1, 0);
         printf("%s\n",mosrecode);
       }else if(boolean>3){
         char dach = '-';
@@ -250,6 +252,7 @@ static void gpio_task_example(void* arg)
         boolean=0;
         scal++;
         numofselect=0;
+        esp_mqtt_client_publish(client, "/mc/4", mosrecode, 0, 1, 0);
         printf("%s\n",mosrecode);
       }else{
         numofselect++;
@@ -258,6 +261,7 @@ static void gpio_task_example(void* arg)
             text();
             numofselect=0;
             scal=0;
+            esp_mqtt_client_publish(client, "/mc/2", stringtext, 0, 1, 0);
             printf("%s\n",stringtext);
             numforspace++;
         }
@@ -269,23 +273,27 @@ void mqtt_app_start(void)
 {
   gpio_config_t io_conf = {};
 
-//INPUT
+  // INPUT
+  io_conf.intr_type = GPIO_INTR_DISABLE;
+  io_conf.mode = GPIO_MODE_INPUT;
+  io_conf.pin_bit_mask = GPIO_INPUT_PIN_POLL_SEL;
+  io_conf.pull_down_en = 0;
+  io_conf.pull_up_en = 1;
+  gpio_config(&io_conf);
 
-io_conf.intr_type = GPIO_INTR_DISABLE;
-io_conf.mode = GPIO_MODE_INPUT;
-io_conf.pin_bit_mask = GPIO_INPUT_PIN_POLL_SEL;
-io_conf.pull_down_en = 0;
-io_conf.pull_up_en = 1;
-gpio_config(&io_conf);
+  // Initialize MQTT client
   esp_mqtt_client_config_t mqtt_cfg = {
     .broker.address.uri = CONFIG_BROKER_URL,
   };
 
-  esp_mqtt_client_handle_t client = esp_mqtt_client_init(&mqtt_cfg);
+  client = esp_mqtt_client_init(&mqtt_cfg);
   esp_mqtt_client_register_event(client, ESP_EVENT_ANY_ID, mqtt_event_handler, NULL);
   esp_mqtt_client_start(client);
+
+  // Rest of the code...
+
   gpio_install_isr_service(ESP_INTR_FLAG_DEFAULT);
   gpio_isr_handler_add(GPIO_INPUT_IO_2, gpio_isr_handler, (void*)GPIO_INPUT_IO_2);
   gpio_evt_queue = xQueueCreate(10, sizeof(uint32_t));
-  xTaskCreate(gpio_task_example, "gpio_task_example",2048, NULL, 10,NULL);
+  xTaskCreate(gpio_task_example, "gpio_task_example", 2048, NULL, 10, NULL);
 }
