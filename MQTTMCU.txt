@@ -15,11 +15,14 @@
 #include <string.h>
 
 #define GPIO_INPUT_IO_0 16
-#define GPIO_INPUT_IO_1 17
+#define GPIO_OUTPUT_IO_1 18
 #define GPIO_INPUT_IO_2 5
-#define GPIO_INPUT_PIN_POLL_SEL ((1Ull<<GPIO_INPUT_IO_0) | (1ULL<<GPIO_INPUT_IO_1))
+#define GPIO_INPUT_PIN_POLL_SEL (1Ull<<GPIO_INPUT_IO_0)
 #define GPIO_INPUT_PIN_INTR_SEL (1ULL<<GPIO_INPUT_IO_2)
- esp_mqtt_client_handle_t client;
+
+#define GPIO_OUTPUT_PIN_SET (1ULL<<GPIO_OUTPUT_IO_1)
+
+esp_mqtt_client_handle_t client;
 int numberinstring =0;
 char stringtext[30];
 int numofselect = 0;
@@ -227,6 +230,7 @@ static void gpio_task_example(void* arg)
     vTaskDelay(100 / portTICK_PERIOD_MS);
     // printf("GPIO[%d] poll, val: %d\n",GPIO_INPUT_IO_0,gpio_get_level(GPIO_INPUT_IO_0));
     if(gpio_get_level(GPIO_INPUT_IO_0)==0){
+        gpio_set_level(GPIO_OUTPUT_IO_1,0);
       if(numforspace>2){
         printf("MQTT SEND SAPCE " " ");
         stringtext[numberinstring] = ' ';
@@ -238,6 +242,7 @@ static void gpio_task_example(void* arg)
       vTaskDelay(50 / portTICK_PERIOD_MS);
     }
       else if(gpio_get_level(GPIO_INPUT_IO_0)==1){
+        gpio_set_level(GPIO_OUTPUT_IO_1,1);
       if(boolean>=1&&boolean<=3){
         char dot = '.';
         mosrecode[scal]=dot;
@@ -281,6 +286,14 @@ void mqtt_app_start(void)
   io_conf.pull_up_en = 1;
   gpio_config(&io_conf);
 
+  // OUTPUT
+  io_conf.intr_type = GPIO_INTR_DISABLE;
+  io_conf.mode = GPIO_MODE_OUTPUT;
+  io_conf.pin_bit_mask = GPIO_OUTPUT_PIN_SET;
+  io_conf.pull_down_en = 0;
+  io_conf.pull_up_en = 0;
+  gpio_config(&io_conf);
+
   // Initialize MQTT client
   esp_mqtt_client_config_t mqtt_cfg = {
     .broker.address.uri = CONFIG_BROKER_URL,
@@ -297,3 +310,4 @@ void mqtt_app_start(void)
   gpio_evt_queue = xQueueCreate(10, sizeof(uint32_t));
   xTaskCreate(gpio_task_example, "gpio_task_example", 2048, NULL, 10, NULL);
 }
+
