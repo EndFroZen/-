@@ -1,0 +1,291 @@
+#include <stdio.h>
+#include <stdint.h>
+#include <stddef.h>
+
+#include "driver/gpio.h"
+#include <inttypes.h>
+#include <esp_timer.h>
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "freertos/queue.h"
+#include "Lab11.h"
+
+#include "esp_log.h"
+#include "mqtt_client.h"
+#include <string.h>
+
+#define GPIO_INPUT_IO_0 16
+#define GPIO_INPUT_IO_1 17
+#define GPIO_INPUT_IO_2 5
+#define GPIO_INPUT_PIN_POLL_SEL ((1Ull<<GPIO_INPUT_IO_0) | (1ULL<<GPIO_INPUT_IO_1))
+#define GPIO_INPUT_PIN_INTR_SEL (1ULL<<GPIO_INPUT_IO_2)
+int numberinstring =0;
+char stringtext[30];
+int numofselect = 0;
+int numforspace=0;
+char mosrecode[20];
+int scal=0;
+int boolean=0;
+#define ESP_INTR_FLAG_DEFAULT 0
+static QueueHandle_t gpio_evt_queue = NULL;
+
+static void IRAM_ATTR gpio_isr_handler(void* arg)
+{
+    uint32_t gpio_num = (uint32_t)arg;
+    xQueueSendFromISR(gpio_evt_queue, &gpio_num,NULL);
+}
+
+static const char *TAG = "MQTT";
+
+static void log_error_if_nonzero(const char *message, int error_code)
+{
+  if(error_code != 0)
+  {
+    ESP_LOGE(TAG, "Last error %s: 0x%x", message, error_code);
+  }
+}
+
+static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_t event_id, void *event_data)
+{
+  ESP_LOGD(TAG, "Event dispatched from event loop base=%s, event_id=%" PRIi32 "", base, event_id);
+  esp_mqtt_event_handle_t event = event_data;
+  esp_mqtt_client_handle_t client = event->client;
+
+  switch((esp_mqtt_event_id_t)event_id)
+  {
+    case MQTT_EVENT_CONNECTED:
+      ESP_LOGI(TAG, "MQTT_EVENT_CONNECTED");
+      esp_mqtt_client_publish(client, "/topic/qos1", "data for qos1", 0, 1, 0);
+      esp_mqtt_client_subscribe(client, "/topic/qos0", 0);
+      esp_mqtt_client_subscribe(client, "/topic/qos1", 1);
+      esp_mqtt_client_unsubscribe(client, "/topic/qos1");
+      break;
+
+    case MQTT_EVENT_DISCONNECTED:
+      ESP_LOGI(TAG, "MQTT_EVENT_DISCONNECTED");
+      break;
+
+    case MQTT_EVENT_SUBSCRIBED:
+      ESP_LOGI(TAG, "MQTT_EVENT_SUBSCRIBED, msg_id=%d", event->msg_id);
+      esp_mqtt_client_publish(client, "/topic/qos0", "data for qos0", 0, 0, 0);
+      break;
+
+    case MQTT_EVENT_UNSUBSCRIBED:
+      ESP_LOGI(TAG, "MQTT_EVENT_UNSUBSCRIBED, msg_id=%d", event->msg_id);
+      break;
+
+    case MQTT_EVENT_PUBLISHED:
+      ESP_LOGI(TAG, "MQTT_EVENT_PUBLISHED, msg_id=%d", event->msg_id);
+      break;
+
+    case MQTT_EVENT_DATA:
+      ESP_LOGI(TAG, "MQTT_EVENT_DATA");
+      printf("TOPIC=%.*s\r\n", event->topic_len, event->topic);
+      printf("DATA=%.*s\r\n", event->data_len, event->data);
+      break;
+
+    case MQTT_EVENT_ERROR:
+      ESP_LOGI(TAG, "MQTT_EVENT_ERROR");
+      if(event->error_handle->error_type == MQTT_ERROR_TYPE_TCP_TRANSPORT)
+      {
+        log_error_if_nonzero("reported from esp_tls", event->error_handle->esp_tls_last_esp_err);
+        log_error_if_nonzero("reported from tls stack", event->error_handle->esp_tls_stack_err);
+        log_error_if_nonzero("captured as transport's socket errno", event->error_handle->esp_transport_sock_errno);
+        ESP_LOGI(TAG, "Last error string (%s)", strerror(event->error_handle->esp_transport_sock_errno));
+
+      }
+      break;
+
+    default:
+      ESP_LOGI(TAG, "Other event id:%d", event->event_id);
+      break;
+  }
+}
+void text(){
+    if(strcmp(mosrecode, ".-")==0){
+        printf("A");
+        stringtext[numberinstring] = 'A';numberinstring++;numforspace=0;
+    }else if(strcmp(mosrecode, "-...")==0){
+        printf("B");
+        stringtext[numberinstring] =  'B';numberinstring++;numforspace=0;
+    }else if(strcmp(mosrecode, "-.-.")==0){
+        printf("C");
+        stringtext[numberinstring] ='C';numberinstring++;numforspace=0;
+    }else if(strcmp(mosrecode, "-...")==0){
+        printf("D");
+        stringtext[numberinstring] ='D';numberinstring++;numforspace=0;
+    }else if(strcmp(mosrecode, ".")==0){
+        printf("E");
+        stringtext[numberinstring] ='E';numberinstring++;numforspace=0;
+    }else if(strcmp(mosrecode, "..-.")==0){
+        printf("F");
+        stringtext[numberinstring] ='F';numberinstring++;numforspace=0;
+    }else if(strcmp(mosrecode, "--.")==0){
+        printf("G");
+        stringtext[numberinstring] = 'G';numberinstring++;numforspace=0;
+    }else if(strcmp(mosrecode, "....")==0){
+        printf("H");
+        stringtext[numberinstring] = 'H';numberinstring++;numforspace=0;
+    }else if(strcmp(mosrecode, "..")==0){
+        printf("I");
+        stringtext[numberinstring] = 'I';numberinstring++;numforspace=0;
+    }else if(strcmp(mosrecode, ".---")==0){
+        printf("J");
+        stringtext[numberinstring] = 'J';numberinstring++;numforspace=0;
+    }else if(strcmp(mosrecode, "-.-")==0){
+        printf("K");
+        stringtext[numberinstring] = 'K';numberinstring++;numforspace=0;
+    }else if(strcmp(mosrecode, ".-..")==0){
+        printf("L");
+        stringtext[numberinstring] = 'L';numberinstring++;numforspace=0;
+    }else if(strcmp(mosrecode, "--")==0){
+        printf("M");
+        stringtext[numberinstring] = 'M';numberinstring++;numforspace=0;
+    }else if(strcmp(mosrecode, "-.")==0){
+        printf("N");
+        stringtext[numberinstring] = 'N';numberinstring++;numforspace=0;
+    }else if(strcmp(mosrecode, "---")==0){
+        printf("O");
+        stringtext[numberinstring] = 'O';numberinstring++;numforspace=0;
+    }else if(strcmp(mosrecode, ".--.")==0){
+        printf("P");
+        stringtext[numberinstring] ='P';numberinstring++;numforspace=0;
+    }else if(strcmp(mosrecode, "--.-")==0){
+        printf("Q");
+        stringtext[numberinstring] ='Q';numberinstring++;numforspace=0;
+    }else if(strcmp(mosrecode, ".-.")==0){
+        printf("R");
+        stringtext[numberinstring] = 'R';numberinstring++;numforspace=0;
+    }else if(strcmp(mosrecode, "...")==0){
+        printf("S");
+        stringtext[numberinstring] = 'S';numberinstring++;numforspace=0;
+    }else if(strcmp(mosrecode, "-")==0){
+        printf("T");
+        stringtext[numberinstring] = 'T';numberinstring++;numforspace=0;
+    }else if(strcmp(mosrecode, "..-")==0){
+        printf("U");
+        stringtext[numberinstring] = 'U';numberinstring++;numforspace=0;
+    }else if(strcmp(mosrecode, "...-")==0){
+        printf("V");
+        stringtext[numberinstring] = 'V';numberinstring++;numforspace=0;
+    }else if(strcmp(mosrecode, ".--")==0){
+        printf("W");
+        stringtext[numberinstring] = 'W';numberinstring++;numforspace=0;
+    }else if(strcmp(mosrecode, "-..-")==0){
+        printf("X");
+        stringtext[numberinstring] = 'X';numberinstring++;numforspace=0;
+    }else if(strcmp(mosrecode, "-.--")==0){
+        printf("Y");
+        stringtext[numberinstring] = 'Y';numberinstring++;numforspace=0;
+    }else if(strcmp(mosrecode, "--..")==0){
+        printf("Z");
+        stringtext[numberinstring] = 'Z';numberinstring++;numforspace=0;
+    }else if(strcmp(mosrecode, ".----")==0){
+        printf("1");
+        stringtext[numberinstring] = '1';numberinstring++;numforspace=0;
+    }else if(strcmp(mosrecode, "..---")==0){
+        printf("2");
+        stringtext[numberinstring] = '2';numberinstring++;numforspace=0;
+    }else if(strcmp(mosrecode, "...--")==0){
+        printf("3");
+        stringtext[numberinstring] = '3';numberinstring++;numforspace=0;
+    }else if(strcmp(mosrecode, "....-")==0){
+        printf("4");
+        stringtext[numberinstring] = '4';numberinstring++;numforspace=0;
+    }else if(strcmp(mosrecode, ".....")==0){
+        printf("5 ");
+        stringtext[numberinstring] = '5';numberinstring++;numforspace=0;
+    }else if(strcmp(mosrecode, "-....")==0){
+        printf("6");
+        stringtext[numberinstring] = '6';numberinstring++;numforspace=0;
+    }else if(strcmp(mosrecode, "--...")==0){
+        printf("7");
+        stringtext[numberinstring] = '7';numberinstring++;numforspace=0;
+    }else if(strcmp(mosrecode, "---..")==0){
+        printf("8");
+        stringtext[numberinstring] = '8';numberinstring++;numforspace=0;
+    }else if(strcmp(mosrecode, "----.")==0){
+        printf("9");
+        stringtext[numberinstring] = '9';numberinstring++;numforspace=0;
+    }else if(strcmp(mosrecode, "-----")==0){
+        printf("0");
+        stringtext[numberinstring] = '0';numberinstring++;numforspace=0;
+    }else{
+        printf(" ");
+    }
+    
+    printf("%d\n",numberinstring);
+    for(int i =0;i<20;i++){
+        mosrecode[i]='\0';
+    }
+}
+
+static void gpio_task_example(void* arg)
+{ for(;;){
+    
+    vTaskDelay(100 / portTICK_PERIOD_MS);
+    // printf("GPIO[%d] poll, val: %d\n",GPIO_INPUT_IO_0,gpio_get_level(GPIO_INPUT_IO_0));
+    if(gpio_get_level(GPIO_INPUT_IO_0)==0){
+      if(numforspace>2){
+        printf("MQTT SEND SAPCE " " ");
+        stringtext[numberinstring] = ' ';
+        numberinstring++;
+        numforspace=0;
+      }
+      boolean++;
+      printf("%d\n",boolean);
+      vTaskDelay(50 / portTICK_PERIOD_MS);
+    }
+      else if(gpio_get_level(GPIO_INPUT_IO_0)==1){
+      if(boolean>=1&&boolean<=3){
+        char dot = '.';
+        mosrecode[scal]=dot;
+        boolean=0;
+        numofselect=0;
+        scal++;
+        printf("%s\n",mosrecode);
+      }else if(boolean>3){
+        char dach = '-';
+        mosrecode[scal]=dach;
+        boolean=0;
+        scal++;
+        numofselect=0;
+        printf("%s\n",mosrecode);
+      }else{
+        numofselect++;
+        vTaskDelay(100 / portTICK_PERIOD_MS);
+        if(numofselect == 10){
+            text();
+            numofselect=0;
+            scal=0;
+            printf("%s\n",stringtext);
+            numforspace++;
+        }
+      }
+    }
+}
+}
+void mqtt_app_start(void)
+{
+  gpio_config_t io_conf = {};
+
+//INPUT
+
+io_conf.intr_type = GPIO_INTR_DISABLE;
+io_conf.mode = GPIO_MODE_INPUT;
+io_conf.pin_bit_mask = GPIO_INPUT_PIN_POLL_SEL;
+io_conf.pull_down_en = 0;
+io_conf.pull_up_en = 1;
+gpio_config(&io_conf);
+  esp_mqtt_client_config_t mqtt_cfg = {
+    .broker.address.uri = CONFIG_BROKER_URL,
+  };
+
+  esp_mqtt_client_handle_t client = esp_mqtt_client_init(&mqtt_cfg);
+  esp_mqtt_client_register_event(client, ESP_EVENT_ANY_ID, mqtt_event_handler, NULL);
+  esp_mqtt_client_start(client);
+  gpio_install_isr_service(ESP_INTR_FLAG_DEFAULT);
+  gpio_isr_handler_add(GPIO_INPUT_IO_2, gpio_isr_handler, (void*)GPIO_INPUT_IO_2);
+  gpio_evt_queue = xQueueCreate(10, sizeof(uint32_t));
+  xTaskCreate(gpio_task_example, "gpio_task_example",2048, NULL, 10,NULL);
+}
