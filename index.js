@@ -53,7 +53,23 @@ app.get("/",(req,res)=>{
     }
     
 })
+app.get('/back', (req, res) => {
+  
+  res.redirect('/');
+});
 
-app.get("/home",(req,res)=>{
-    res.render("home")  
+app.get("/submit",(req,res)=>{
+  if(data2=="20 POINT"){
+    res.redirect("/20point");
+  }
+  res.render("home",{data2:data2})
+})
+
+app.get("/20point",(req,res)=>{
+  res.render("20point")
+})
+
+app.get("/reset",(req,res)=>{
+  client.publish("/mc/1", "RESET");
+  res.redirect('/');
 })
