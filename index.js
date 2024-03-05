@@ -9,8 +9,8 @@ const client = mqtt.connect("mqtt://localhost");
 
 app.set('views', './views');
 app.set('view engine', 'ejs');
-
 let data = ""
+let data2 = ""
 // Set up static file serving
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -29,12 +29,22 @@ client.on("connect", () => {
       
     });
   });
-  
-  client.on("message", (topic, message) => {
-    data = message.toString()
-    console.log(data)
-    console.log(message.toString());
+  client.subscribe("/mc/4", (err) => {
+    if (!err) {
+      client.publish("/mc/data", "Hello mqtt");
+    }else{
+      throw err;
+    }
     
+  });
+  client.on("message", (topic, message) => {
+    if (topic === "/mc/4") {
+      data = message.toString();
+  } else if (topic === "/mc/2") {
+      data2 = message.toString();
+  }
+    console.log(data+topic)
+    console.log(message.toString());
   });
 
 app.listen(PORT,()=>{
@@ -43,7 +53,7 @@ app.listen(PORT,()=>{
 
 app.get("/",(req,res)=>{
     
-    res.render("main",{data :data})  
+    res.render("main",{data :data,data2:data2})  
 })
 
 app.get("/home",(req,res)=>{
