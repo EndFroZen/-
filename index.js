@@ -20,14 +20,8 @@ app.use("/css", express.static(__dirname + "static/css"));
 app.use("/img", express.static(__dirname + "static/img"));
 
 client.on("connect", () => {
-    client.subscribe("/mc/2", (err) => {
-      if (!err) {
-        client.publish("/mc/data", "Hello mqtt");
-      }else{
-        throw err;
-      }
-      
-    });
+  client.subscribe("/mc/2", (err) => { console.log(err)});
+  client.subscribe("/mc/4", (err) => { console.log(err)});
   });
   client.subscribe("/mc/4", (err) => {
     if (!err) {
@@ -52,8 +46,12 @@ app.listen(PORT,()=>{
 }) 
 
 app.get("/",(req,res)=>{
+    if(data2===".-"){
+      res.redirect("/home")
+    }else{
+      res.render("main",{data :data,data2:data2})  
+    }
     
-    res.render("main",{data :data,data2:data2})  
 })
 
 app.get("/home",(req,res)=>{
