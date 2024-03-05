@@ -30,168 +30,137 @@ static void IRAM_ATTR gpio_isr_handler(void* arg)
 }
 int b = 2;
 
-// static void gpio_task_example(void* arg)
-// {   
-//     while(1){
-//         printf("%s\n",string);
-//         vTaskDelay(1000 / portTICK_PERIOD_MS);
-//     }
-    
-//     // uint32_t io_num;
-//     // for(;;){
-//     //     if(xQueueReceive(gpio_evt_queue, &io_num, portMAX_DELAY)) {
-//     //         printf("GPIO[%"PRIu32"] intr, val: %d\n",io_num,gpio_get_level(io_num));
-            
-//     //     }
-//     //     if(gpio_get_level(io_num) == 0){
-//     //         b++;
-//     //          int c = b % 2;
-//     //         gpio_set_level(GPIO_OUTPUT_IO_1, c);
-//     //     }
-
-//     // }
-// }
 void text(){
     if(strcmp(mosrecode, ".-")==0){
         printf("A");
-        stringtext[numberinstring] = 'A';numberinstring++;
+        stringtext[numberinstring] = 'A';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "-...")==0){
         printf("B");
-        stringtext[numberinstring] =  'B';numberinstring++;
+        stringtext[numberinstring] =  'B';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "-.-.")==0){
         printf("C");
-        stringtext[numberinstring] ='C';numberinstring++;
+        stringtext[numberinstring] ='C';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "-...")==0){
         printf("D");
-        stringtext[numberinstring] ='D';numberinstring++;
+        stringtext[numberinstring] ='D';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, ".")==0){
         printf("E");
-        stringtext[numberinstring] ='E';numberinstring++;
+        stringtext[numberinstring] ='E';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "..-.")==0){
         printf("F");
-        stringtext[numberinstring] ='F';numberinstring++;
+        stringtext[numberinstring] ='F';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "--.")==0){
         printf("G");
-        stringtext[numberinstring] = 'G';numberinstring++;
+        stringtext[numberinstring] = 'G';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "....")==0){
         printf("H");
-        stringtext[numberinstring] = 'H';numberinstring++;
+        stringtext[numberinstring] = 'H';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "..")==0){
         printf("I");
-        stringtext[numberinstring] = 'I';numberinstring++;
+        stringtext[numberinstring] = 'I';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, ".---")==0){
         printf("J");
-        stringtext[numberinstring] = 'J';numberinstring++;
+        stringtext[numberinstring] = 'J';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "-.-")==0){
         printf("K");
-        stringtext[numberinstring] = 'K';numberinstring++;
+        stringtext[numberinstring] = 'K';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, ".-..")==0){
         printf("L");
-        stringtext[numberinstring] = 'L';numberinstring++;
+        stringtext[numberinstring] = 'L';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "--")==0){
         printf("M");
-        stringtext[numberinstring] = 'M';numberinstring++;
+        stringtext[numberinstring] = 'M';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "-.")==0){
         printf("N");
-        stringtext[numberinstring] = 'N';numberinstring++;
+        stringtext[numberinstring] = 'N';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "---")==0){
         printf("O");
-        stringtext[numberinstring] = 'O';numberinstring++;
+        stringtext[numberinstring] = 'O';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, ".--.")==0){
         printf("P");
-        stringtext[numberinstring] ='P';numberinstring++;
+        stringtext[numberinstring] ='P';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "--.-")==0){
         printf("Q");
-        stringtext[numberinstring] ='Q';numberinstring++;
+        stringtext[numberinstring] ='Q';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, ".-.")==0){
         printf("R");
-        stringtext[numberinstring] = 'R';numberinstring++;
+        stringtext[numberinstring] = 'R';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "...")==0){
         printf("S");
-        stringtext[numberinstring] = 'S';numberinstring++;
+        stringtext[numberinstring] = 'S';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "-")==0){
         printf("T");
-        stringtext[numberinstring] = 'T';numberinstring++;
+        stringtext[numberinstring] = 'T';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "..-")==0){
         printf("U");
-        stringtext[numberinstring] = 'U';numberinstring++;
+        stringtext[numberinstring] = 'U';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "...-")==0){
         printf("V");
-        stringtext[numberinstring] = 'V';numberinstring++;
+        stringtext[numberinstring] = 'V';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, ".--")==0){
         printf("W");
-        stringtext[numberinstring] = 'W';numberinstring++;
+        stringtext[numberinstring] = 'W';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "-..-")==0){
         printf("X");
-        stringtext[numberinstring] = 'X';numberinstring++;
+        stringtext[numberinstring] = 'X';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "-.--")==0){
         printf("Y");
-        stringtext[numberinstring] = 'Y';numberinstring++;
+        stringtext[numberinstring] = 'Y';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "--..")==0){
         printf("Z");
-        stringtext[numberinstring] = 'Z';numberinstring++;
+        stringtext[numberinstring] = 'Z';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, ".----")==0){
         printf("1");
-        stringtext[numberinstring] = '1';numberinstring++;
+        stringtext[numberinstring] = '1';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "..---")==0){
         printf("2");
-        stringtext[numberinstring] = '2';numberinstring++;;
+        stringtext[numberinstring] = '2';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "...--")==0){
         printf("3");
-        stringtext[numberinstring] = '3';numberinstring++;
+        stringtext[numberinstring] = '3';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "....-")==0){
         printf("4");
-        stringtext[numberinstring] = '4';numberinstring++;
+        stringtext[numberinstring] = '4';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, ".....")==0){
         printf("5 ");
-        stringtext[numberinstring] = '5';numberinstring++;
+        stringtext[numberinstring] = '5';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "-....")==0){
         printf("6");
-        stringtext[numberinstring] = '6';numberinstring++;
+        stringtext[numberinstring] = '6';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "--...")==0){
         printf("7");
-        stringtext[numberinstring] = '7';numberinstring++;
+        stringtext[numberinstring] = '7';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "---..")==0){
         printf("8");
-        stringtext[numberinstring] = '8';numberinstring++;
+        stringtext[numberinstring] = '8';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "----.")==0){
         printf("9");
-        stringtext[numberinstring] = '9';numberinstring++;
+        stringtext[numberinstring] = '9';numberinstring++;numforspace=0;
     }else if(strcmp(mosrecode, "-----")==0){
         printf("0");
-        stringtext[numberinstring] = '0';numberinstring++;
+        stringtext[numberinstring] = '0';numberinstring++;numforspace=0;
     }else{
         printf(" ");
     }
+    
     printf("%d\n",numberinstring);
     for(int i =0;i<20;i++){
         mosrecode[i]='\0';
     }
 }
-void app_main(void)
-{
 
-gpio_config_t io_conf = {};
-
-//INPUT
-
-io_conf.intr_type = GPIO_INTR_DISABLE;
-io_conf.mode = GPIO_MODE_INPUT;
-io_conf.pin_bit_mask = GPIO_INPUT_PIN_POLL_SEL;
-io_conf.pull_down_en = 0;
-io_conf.pull_up_en = 1;
-gpio_config(&io_conf);
-
-
-gpio_install_isr_service(ESP_INTR_FLAG_DEFAULT);
-gpio_isr_handler_add(GPIO_INPUT_IO_2, gpio_isr_handler, (void*)GPIO_INPUT_IO_2);
-gpio_evt_queue = xQueueCreate(10, sizeof(uint32_t));
-// xTaskCreate(gpio_task_example, "gpio_task_example",2048, NULL, 10,NULL);
-for(;;){
+static void gpio_task_example(void* arg)
+{ for(;;){
     
     vTaskDelay(100 / portTICK_PERIOD_MS);
     // printf("GPIO[%d] poll, val: %d\n",GPIO_INPUT_IO_0,gpio_get_level(GPIO_INPUT_IO_0));
     if(gpio_get_level(GPIO_INPUT_IO_0)==0){
+      if(numforspace>2){
+        printf("MQTT SEND SAPCE " " ");
+        stringtext[numberinstring] = ' ';
+        numberinstring++;
+        numforspace=0;
+      }
       boolean++;
       printf("%d\n",boolean);
       vTaskDelay(50 / portTICK_PERIOD_MS);
@@ -219,14 +188,31 @@ for(;;){
             numofselect=0;
             scal=0;
             printf("%s\n",stringtext);
-        }else if(numforspace==2){;
-            printf("MQTT SEND SAPCE " " ")
-            stringtext[numberinstring] = ' ';
-            numberinstring++;
-            numforspace=0;
+            numforspace++;
         }
       }
     }
 }
+}
+void app_main(void)
+{
+
+gpio_config_t io_conf = {};
+
+//INPUT
+
+io_conf.intr_type = GPIO_INTR_DISABLE;
+io_conf.mode = GPIO_MODE_INPUT;
+io_conf.pin_bit_mask = GPIO_INPUT_PIN_POLL_SEL;
+io_conf.pull_down_en = 0;
+io_conf.pull_up_en = 1;
+gpio_config(&io_conf);
+
+
+gpio_install_isr_service(ESP_INTR_FLAG_DEFAULT);
+gpio_isr_handler_add(GPIO_INPUT_IO_2, gpio_isr_handler, (void*)GPIO_INPUT_IO_2);
+gpio_evt_queue = xQueueCreate(10, sizeof(uint32_t));
+xTaskCreate(gpio_task_example, "gpio_task_example",2048, NULL, 10,NULL);
+
 }
 
