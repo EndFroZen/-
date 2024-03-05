@@ -11,12 +11,18 @@
 
 </head>
 <body>
-    <H1><%=data2 %></H1>
+    <div class="main_display">
+        <H1 class="data2"><%=data2 %></H1>
+    
     <div class="display">
         <div class="main">
-            <h1><%=data %></h1>
+            <h1 class="data1"><%=data %></h1>
+            <form action="/submit" method="get"><button class="button-27" type="submit">Submit</button></form>
+            <form action="/reset" method="get"><button class="button-28" type="submit">Reset</button></form>
         </div>
     </div>
+    </div>
+        
 </body>
 <script>setInterval(function() {
     location.reload();
