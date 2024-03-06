@@ -60,6 +60,8 @@ void reset(){
   for(int i =0;i<20;i++){
         mosrecode[i]='\0';
     }
+    esp_mqtt_client_publish(client, "/mc/4", mosrecode, 0, 1, 0);
+    esp_mqtt_client_publish(client, "/mc/2", stringtext, 0, 1, 0);
 };
 static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_t event_id, void *event_data)
 {
@@ -246,10 +248,13 @@ static void gpio_task_example(void* arg)
     if(gpio_get_level(GPIO_INPUT_IO_0)==0){
         gpio_set_level(GPIO_OUTPUT_IO_1,0);
       if(numforspace>2){
-        printf("MQTT SEND SAPCE " " ");
+        if(numberinstring>0){
+        esp_mqtt_client_publish(client, "/mc/4", "MQTT SEND SAPCE " "", 0, 1, 0);
         stringtext[numberinstring] = ' ';
         numberinstring++;
         numforspace=0;
+        }
+
       }
       boolean++;
       printf("%d\n",boolean);
@@ -257,7 +262,7 @@ static void gpio_task_example(void* arg)
     }
       else if(gpio_get_level(GPIO_INPUT_IO_0)==1){
         gpio_set_level(GPIO_OUTPUT_IO_1,1);
-      if(boolean>=1&&boolean<=3){
+      if(boolean>=1&&boolean<=2){
         char dot = '.';
         mosrecode[scal]=dot;
         boolean=0;
@@ -265,7 +270,7 @@ static void gpio_task_example(void* arg)
         scal++;
         esp_mqtt_client_publish(client, "/mc/4", mosrecode, 0, 1, 0);
         printf("%s\n",mosrecode);
-      }else if(boolean>3){
+      }else if(boolean>=3){
         char dach = '-';
         mosrecode[scal]=dach;
         boolean=0;
